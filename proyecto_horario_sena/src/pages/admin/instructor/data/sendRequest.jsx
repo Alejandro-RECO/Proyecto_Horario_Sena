@@ -39,7 +39,7 @@ export const fetchData = async ()=>{
       return null;
     }
 
-    console.error("erro en el fetch", error)
+    console.error("error en el fetch", error)
     throw error;
   }
 }

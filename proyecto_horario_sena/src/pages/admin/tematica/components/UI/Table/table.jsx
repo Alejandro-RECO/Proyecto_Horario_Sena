@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import { fetchData } from '../../../data/sendRequest';
 import { MenuTematica } from '../select/select';
 
@@ -11,12 +12,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useEffect, useState } from 'react';
 
 
 
 export const TableTematica = ()=> {
-  // Almacena la informacion traida desde la peticion get
   const [data, setData] = useState({tematica: []})
 
   useEffect(() =>{
@@ -38,15 +37,14 @@ export const TableTematica = ()=> {
         <Table sx={{ minWidth: 1030}} aria-label="simple table">
           <TableHead>
             <TableRow>
-              {/* Cabecera de la informacion renderizada desde el GET */}
               <TableCell>
-                <p className='text-base font-bold '>Nombre Tematica</p>
+                <p className='text-base font-bold '>Nombre</p>
               </TableCell>
               <TableCell align="left">
-                <p className='text-base font-bold '>Id Tematica</p>
+                <p className='text-base font-bold '>Descripcion</p>
               </TableCell>
               <TableCell align="left">
-                <p className='text-base font-bold '>Descripción</p>
+                <p className='text-base font-bold '>Estado</p>
               </TableCell>
               <TableCell align="left">
                 <p className='text-base font-bold '>Horas Maximas Mensuales</p>
@@ -55,37 +53,37 @@ export const TableTematica = ()=> {
               <p className='text-base font-bold '>Horas Maximas Semanales</p>
               </TableCell>
               <TableCell align="left">
+              <p className='text-base font-bold '>Programa</p>
+              </TableCell>
+              <TableCell align="left">
               <p className='text-base font-bold '>Trimestre</p>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* mapeamos la informacion retornada desde el get y las mostramos cada una  */}
             {data.tematica.map((row) => (
               <TableRow
-              // Revisar como esta la key
-                key={row.idTematica}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {row.nombreTematica}
                 </TableCell>
-                <TableCell align="left">{row.id}</TableCell>
                 <TableCell align="left">{row.descripcionTematica}</TableCell>
+                <TableCell align="left">{row.estadoTematica}</TableCell>
                 <TableCell align="left">{row.horasMaximasM} Horas</TableCell>
                 <TableCell align="left">{row.horasMaximasS} Horas</TableCell>
+                <TableCell align="left">{row.idProgramaFK} Horas</TableCell>
                 <TableCell align="left">Trimestre {row.trimestre}</TableCell>
                 <TableCell align="left">
-                  {/* Modal que nos permie actualizar y eliminar la informacion de la Tematica mediante el id */}
-                  <MenuTematica 
-                    id={row.id}
+                  <MenuTematica
                     nombreTematica={row.nombreTematica}
                     descripcionTematica={row.descripcionTematica}
+                    estadoTematica={row.estadoTematica}
                     horasMaximasM={row.horasMaximasM}
                     horasMaximasS={row.horasMaximasS}
-                    trimestre={row.trimestre}
-                    estadoTematica={row.estadoTematica}
                     idProgramaFK={row.idProgramaFK}
+                    trimestre={row.trimestre}
                     />
                 </TableCell>
               </TableRow>

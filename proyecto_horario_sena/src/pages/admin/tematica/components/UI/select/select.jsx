@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ModalTematica } from '../modal/modal';
+// import { ModalTematica } from '../modal/modal';
 import { ModalDelet } from '../modal/modalDelet';
 
 import Button from '@mui/material/Button';
