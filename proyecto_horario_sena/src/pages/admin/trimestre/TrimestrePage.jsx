@@ -1,34 +1,65 @@
-import React from 'react'
-import {trimestreData } from './data/sendRequest';
+import { useEffect, useState } from 'react'
+import { fetchData } from './data/sendRequest';
 
-import { Tab } from '@headlessui/react'
-import { Card } from '../../../components/cards/Card';
 import LayoutPage from '../../../layouts/LayoutPage';
-
+import { Tab } from '@headlessui/react'
+import { TableTrimestre} from './components/UI/Table/table';
+import { ModalTrimestre } from './components/UI/modal/modal';
+import { FormTrimestre } from './components/UI/form/form';
 
 
 export const TrimestrePage = () => {
-  const datos = trimestreData()
+  // Informacion recolectada del metodo GET de nuestra bd 
+  const [data, setData] = useState({ trimestres: [] })
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchDataOnMount = async () => {
+      try {
+        const response = await fetchData();
+        if (isMounted) {
+          setData(response);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error('Error en la petición:', error);
+          setError(error.message || 'Error en la petición');
+        }
+      } finally {
+        // Indicar que la carga ha finalizado, independientemente del resultado
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchDataOnMount();
+
+    // Función de limpieza para cancelar la solicitud si el componente se desmonta
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
-    <LayoutPage title="TRIMESTRES">
+    <LayoutPage 
+      desc="Gestione los trimestres registrados"
+      title={`TRIMESTRES (${data.trimestres.length})`}>
+      <ModalTrimestre/>
       <Tab.Panels>
         <Tab.Panel>
-            <div className="flex items-center justify-center gap-6 flex-wrap">
-                {datos.map((dato)=>(
-                  <Card 
-                    key={dato.id}
-                    title={dato.name} 
-                    info={dato.info} 
-                    img={dato.img}
-                    textColor={0}
-                    id={dato.id}
-                    />
-                ))}
-            </div> 
+        {loading && <p>Cargando...</p>}
+        {error && <p>Error: {error}</p>}
+        {data && (
+          <TableTrimestre/>
+        )}
         </Tab.Panel>
         <Tab.Panel>
-            tab 3
+          <FormTrimestre/>
         </Tab.Panel>
       </Tab.Panels>
     </LayoutPage>
