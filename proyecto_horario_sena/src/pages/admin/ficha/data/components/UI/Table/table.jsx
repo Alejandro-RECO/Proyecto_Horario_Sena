@@ -14,9 +14,9 @@ import Paper from '@mui/material/Paper';
 
 
 
-export const TableInstructor = ()=> {
+export const TableFicha = ()=> {
   // Almacena la informacion traida desde la peticion get
-  const [data, setData] = useState({ instructores: [] })
+  const [data, setData] = useState({ fichas: [] })
 
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export const TableInstructor = ()=> {
           </TableHead>
           <TableBody>
             {/* mapeamos la informacion retornada desde el get y las mostramos cada una  */}
-            {data.instructores.map((row) => (
+            {data.fichas.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
